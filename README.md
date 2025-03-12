@@ -1,8 +1,25 @@
-# Light-R1: Surpassing R1-Distill in Math from Scratch\* with \$1000 through Curriculum SFT & DPO
+# Light-R1: Curriculum SFT, DPO and RL for Long COT from Scratch and Beyond
 
-*\*from models without long COT*
+### Mar. 12 update: [SOTA 7B](https://huggingface.co/qihoo360/Light-R1-7B-DS) and [SOTA RL 14B](https://huggingface.co/qihoo360/Light-R1-14B-DS) math models out! [Tech report](https://github.com/Qihoo360/Light-R1/blob/main/Light-R1.pdf) out!
+
+|Model|Trained From|Release Date|AIME24|AIME25|GPQA|
+| ---- | ---- | ---- | ---- | ---- |---- |
+|DeepSeek-R1-Distill-Qwen-7B|Qwen2.5-Math-7B|25.1.20|55.5|39.2|49.1|
+| [**Light-R1-7B-DS (ours)** 🤗](https://huggingface.co/qihoo360/Light-R1-7B-DS) |DeepSeek-R1-Distill-Qwen-7B|25.3.12|**59.1**|**44.3**|**49.4**|
+|DeepSeek-R1-Distill-Qwen-14B|Qwen2.5-14B|25.1.20|69.7|50.2|59.1|
+| [**Light-R1-14B-DS (ours)** 🤗](https://huggingface.co/qihoo360/Light-R1-14B-DS) |DeepSeek-R1-Distill-Qwen-14B|25.3.12|**74.0**|**60.2**|**61.7**|
+| [**Light-R1-32B-DS (ours)** 🤗](https://huggingface.co/qihoo360/Light-R1-32B-DS) |DeepSeek-R1-Distill-Qwen-32B|25.3.12|**78.1**|**65.9**|**68.0**|
+| [Light-R1-32B (ours) 🤗](https://huggingface.co/qihoo360/Light-R1-32B) |Qwen2.5-32B-Instruct|25.3.4|76.6|64.6|61.8|
+| QwQ-32B |N/A|25.3.6|78.5|69.3|67.7|
+
+We released SOTA math models across [7B🤗](https://huggingface.co/qihoo360/Light-R1-7B-DS) and [RL-14B🤗](https://huggingface.co/qihoo360/Light-R1-14B-DS) respectively, and also [32B-DS🤗](https://huggingface.co/qihoo360/Light-R1-32B-DS). [Technical report](https://github.com/Qihoo360/Light-R1/blob/main/Light-R1.pdf) is also out.
+
+Notably, we made RL work on Light-R1-14B-DS!
+
+<img src="./assets/rl_curve.png" width="400" style="display: block; margin: 0 auto;"/>
 
 
+### Mar.4: Light-R1-32B
 |Model|Trained From|Release Date|AIME24|AIME25|
 | ---- | ---- | ---- | ---- | ---- |
 |DeepSeek-R1-Distill-Llama-70B|Llama-3.3-70B-Instruct|25.1.20|70.0|54.1|
@@ -25,7 +42,7 @@ We believe Light-R1 represents a practical way of training strong long COT model
 
 With the rapid development of training and inference techniques, we hope to see more accessible long-COT models in the near future and Light-R1 provides a validated transparent way to train them in at least specialized domains.
 
-[WeChat Group here.](./wechat-group.JPG)
+<img src="./assets/wechat-group.JPG" width="200" style="display: block; margin: 0 auto;"/>
 
 ## Release Details
 
@@ -95,7 +112,8 @@ We carefully evaluated data contamination of several open-sourced datasets.
 While certain contamination may be [inevitable during pre-training](https://x.com/DimitrisPapail/status/1888325914603516214),
 it is unacceptable for post-training to compare on benchmarks.
 MATH-500 is somewhat compromised with tens of questions that are identical or only numbers changed. AIME 24 and 25 stay intact but we have to pay special attention when we incorporate AIME data up to 2023.
-Light-R1-32B did thorough decontamination with exact or N-gram matching.
+
+Light-R1 did thorough decontamination with exact matching (excluding digits) and N-gram (N=32) matching.
 
 
 ## License & Acknowledgements
@@ -113,8 +131,8 @@ Training data are collected from various public sources.
 
 ```bibtex
 @misc{lightr1proj,
-      title={Light-R1: Surpassing R1-Distill from Scratch with $1000 through Curriculum SFT & DPO}, 
-      author={Liang Wen, Fenrui Xiao, Xin He, Yunke Cai, Qi An, Zhenyu Duan, Yimin Du, Junchen Liu, Lifu Tang, Xiaowei Lv, Haosheng Zou, Yongchao Deng, Shousheng Jia, Xiangzheng Zhang},
+      title={Light-R1: Curriculum SFT, DPO and RL for Long COT from Scratch and Beyond}, 
+      author={Liang Wen, Yunke Cai, Fenrui Xiao, Xin He, Qi An, Zhenyu Duan, Yimin Du, Junchen Liu, Lifu Tang, Xiaowei Lv, Haosheng Zou, Yongchao Deng, Shousheng Jia, Xiangzheng Zhang},
       year={2025},
       eprint={},
       archivePrefix={},
