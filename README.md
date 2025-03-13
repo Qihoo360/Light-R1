@@ -1,5 +1,18 @@
 # Light-R1: Curriculum SFT, DPO and RL for Long COT from Scratch and Beyond
 
+
+
+<div align="center">
+
+[![paper](https://img.shields.io/badge/PDF-Light--R1-blue)](https://github.com/Qihoo360/Light-R1/blob/main/Light-R1.pdf)
+[![wandb](https://img.shields.io/badge/W&B-Light--R1--14B--DS-FFBE00?logo=weightsandbiases)](https://wandb.ai/seek4-nus/grpo-r1-share/reports/14B-GRPO--VmlldzoxMTczNzcyMw?accessToken=29hcarwh4qtt4hryx0zpjpkrssu8r7yo9dzm8ufeiejs8bvi3wu7ckq6oohvtjmf)
+
+[![collections](https://img.shields.io/badge/HFCollections-Light--R1-FFD21E?logo=huggingface)](https://huggingface.co/collections/qihoo360/light-r1-67c675125e2443d7d5ed133d)
+[![dataset](https://img.shields.io/badge/HFData-Light--R1--SFTData-FFD21E?logo=huggingface)](https://huggingface.co/datasets/qihoo360/Light-R1-SFTData)
+
+</div>
+
+
 ### Mar. 12 update: [SOTA 7B](https://huggingface.co/qihoo360/Light-R1-7B-DS) and [SOTA RL 14B](https://huggingface.co/qihoo360/Light-R1-14B-DS) math models out! [Tech report](https://github.com/Qihoo360/Light-R1/blob/main/Light-R1.pdf) out!
 
 |Model|Trained From|Release Date|AIME24|AIME25|GPQA|
