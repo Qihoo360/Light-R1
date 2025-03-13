@@ -27,6 +27,7 @@ eval_datasets = {
     "math_500": (load_dataset("HuggingFaceH4/MATH-500", split="test"), "problem"),
     "gpqa": (load_dataset("Idavidrein/gpqa", "gpqa_diamond", split="train", trust_remote_code=True), "Question"),
 }
+# example to decontaminate against the above 4 datasets. Internally we decontaminated against more.
 
 # load benchmark datas
 benchmark_prompts_dct = dict()
@@ -40,7 +41,7 @@ for dataset_name, (dataset, prompt_key) in eval_datasets.items():
         benchmark_prompts_dct[prompt] = item
         benchmark_prompts_dct[clean_prompt] = item
 
-# get training datas
+# get training data
 training_prompts = list()
 prompt_mode = 0
 if args.format == 'json':  # problem_column supports conversations, messages and others

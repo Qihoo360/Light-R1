@@ -13,6 +13,9 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+# adapted from https://github.com/huggingface/open-r1/pull/416
+
 """
 This script is used to decontaminate a dataset by checking for n-gram overlap with other datasets.
 It uses the same approach presented in https://arxiv.org/abs/2501.19393,
@@ -90,6 +93,8 @@ if __name__ == "__main__":
         "math_500": (load_dataset("HuggingFaceH4/MATH-500", split="test"), "problem"),
         "gpqa": (load_dataset("Idavidrein/gpqa", "gpqa_diamond", split="train", trust_remote_code=True), "Question"),
     }
+    # example to decontaminate against the above 4 datasets. Internally we decontaminated against more.
+
     ngram_lookups = {}
     print('-----build ngram lookup------')
     for ds_name, (eval_dataset, problem_col) in eval_datasets.items():
