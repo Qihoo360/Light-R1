@@ -40,7 +40,6 @@ deepspeed --hostfile $hostfile src/train.py \
     --report_to tensorboard \
     --overwrite_output_dir \
     --ddp_timeout 180000000 \
-    --packing \
     --enable_liger_kernel
 # num_train_epochs 100, with simultaneous model selection
 # stage2 Light-R1 chose epoch 8

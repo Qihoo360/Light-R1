@@ -4,16 +4,16 @@
 
 <div align="center">
 
-[![paper](https://img.shields.io/badge/PDF-Light--R1-blue)](https://github.com/Qihoo360/Light-R1/blob/main/Light-R1.pdf)
-[![wandb](https://img.shields.io/badge/W&B-Light--R1--14B--DS-FFBE00?logo=weightsandbiases)](https://wandb.ai/seek4-nus/grpo-r1-share/reports/14B-GRPO--VmlldzoxMTczNzcyMw?accessToken=29hcarwh4qtt4hryx0zpjpkrssu8r7yo9dzm8ufeiejs8bvi3wu7ckq6oohvtjmf)
+[![paper](https://img.shields.io/badge/PDF-Light--R1-blue?style=for-the-badge)](https://arxiv.org/abs/2503.10460)
+[![wandb](https://img.shields.io/badge/W&B-GRPO--14B-FFBE00?logo=weightsandbiases&style=for-the-badge)](https://wandb.ai/seek4-nus/grpo-r1-share/reports/14B-GRPO--VmlldzoxMTczNzcyMw?accessToken=29hcarwh4qtt4hryx0zpjpkrssu8r7yo9dzm8ufeiejs8bvi3wu7ckq6oohvtjmf)
 
-[![collections](https://img.shields.io/badge/HFCollections-Light--R1-FFD21E?logo=huggingface)](https://huggingface.co/collections/qihoo360/light-r1-67c675125e2443d7d5ed133d)
-[![dataset](https://img.shields.io/badge/HFData-Light--R1--SFTData-FFD21E?logo=huggingface)](https://huggingface.co/datasets/qihoo360/Light-R1-SFTData)
+[![collections](https://img.shields.io/badge/HFCollections-Light--R1-FFD21E?logo=huggingface&style=for-the-badge)](https://huggingface.co/collections/qihoo360/light-r1-67c675125e2443d7d5ed133d)
+[![dataset](https://img.shields.io/badge/HFData-Light--R1--SFTData-FFD21E?logo=huggingface&style=for-the-badge)](https://huggingface.co/datasets/qihoo360/Light-R1-SFTData)
 
 </div>
 
 
-### Mar. 12 update: [SOTA 7B](https://huggingface.co/qihoo360/Light-R1-7B-DS) and [SOTA RL 14B](https://huggingface.co/qihoo360/Light-R1-14B-DS) math models out! [Tech report](https://github.com/Qihoo360/Light-R1/blob/main/Light-R1.pdf) out!
+### Mar. 12 update: [SOTA 7B](https://huggingface.co/qihoo360/Light-R1-7B-DS) and [SOTA RL 14B](https://huggingface.co/qihoo360/Light-R1-14B-DS) math models out! [Tech report](https://arxiv.org/abs/2503.10460) out!
 
 |Model|Trained From|Release Date|AIME24|AIME25|GPQA|
 | ---- | ---- | ---- | ---- | ---- |---- |
@@ -25,7 +25,7 @@
 | [Light-R1-32B (ours) 🤗](https://huggingface.co/qihoo360/Light-R1-32B) |Qwen2.5-32B-Instruct|25.3.4|76.6|64.6|61.8|
 | QwQ-32B |N/A|25.3.6|78.5|69.3|67.7|
 
-We released SOTA math models across [7B🤗](https://huggingface.co/qihoo360/Light-R1-7B-DS) and [RL-14B🤗](https://huggingface.co/qihoo360/Light-R1-14B-DS) respectively, and also [32B-DS🤗](https://huggingface.co/qihoo360/Light-R1-32B-DS). [Technical report](https://github.com/Qihoo360/Light-R1/blob/main/Light-R1.pdf) is also out.
+We released SOTA math models across [7B🤗](https://huggingface.co/qihoo360/Light-R1-7B-DS) and [RL-14B🤗](https://huggingface.co/qihoo360/Light-R1-14B-DS) respectively, and also [32B-DS🤗](https://huggingface.co/qihoo360/Light-R1-32B-DS). [Technical report](https://arxiv.org/abs/2503.10460) is also out.
 
 Notably, we made RL work on Light-R1-14B-DS!
 
@@ -55,7 +55,7 @@ We believe Light-R1 represents a practical way of training strong long COT model
 
 With the rapid development of training and inference techniques, we hope to see more accessible long-COT models in the near future and Light-R1 provides a validated transparent way to train them in at least specialized domains.
 
-<img src="./assets/wechat-group.JPG" width="200" style="display: block; margin: 0 auto;"/>
+<img src="./assets/wechat-group2.JPG" width="200" style="display: block; margin: 0 auto;"/>
 
 ## Release Details
 
