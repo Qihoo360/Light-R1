@@ -55,7 +55,7 @@ We believe Light-R1 represents a practical way of training strong long COT model
 
 With the rapid development of training and inference techniques, we hope to see more accessible long-COT models in the near future and Light-R1 provides a validated transparent way to train them in at least specialized domains.
 
-<img src="./assets/wechat-group3.JPG" width="200" style="display: block; margin: 0 auto;"/>
+<img src="./assets/wechat-group-flip.JPG" width="200" style="display: block; margin: 0 auto;"/>
 
 ## Release Details
 
