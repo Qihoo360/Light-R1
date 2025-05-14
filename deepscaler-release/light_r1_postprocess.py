@@ -142,7 +142,7 @@ def light_r1_postprocessing(dataset, model_path, save_path, benchmark):
             conses += np.mean(is_cons_correct_list)
 
     # 변경된 pass@1 방식 (micro-avg)
-    pass_at_1 = passes / total
+    pass_at_1 = np.mean(total_scores)
     pass_at_new_1 = total_score_sum / total_num_responses
     pass_at_n = passes / total
     cons_at_n = conses / total
