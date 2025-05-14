@@ -62,7 +62,7 @@ def light_r1_postprocessing(dataset, model_path, save_path, benchmark):
     ###config hard-coded###
     rollout_response_length = 16384
     skip_format_reward = True
-    n_samples = 1
+    n_samples = 64
 
     ###Light R1 postprocessing###
     # add correctness field
@@ -89,9 +89,12 @@ def light_r1_postprocessing(dataset, model_path, save_path, benchmark):
     cutoff_ratio = sum([l == rollout_response_length for l in len_response_tokens]) / len(unpad_tokenized)
     print('length cutoff ratio:', cutoff_ratio)
 
-    passes = 0
+    passes = 0    
     total = len(dataset)
     total_scores = []
+    total_num_responses = 0  # 전체 response 수
+    total_score_sum = 0  # 모든 response의 score의 총합
+
     conses = 0
     
     for i in range(total):
@@ -102,6 +105,7 @@ def light_r1_postprocessing(dataset, model_path, save_path, benchmark):
         reward_fn = select_reward_fn(data_source)
         ground_truth = reward_data['ground_truth']
         score_lst = []
+
         for r in response_lst:
             try:
                 if skip_format_reward:
@@ -111,8 +115,12 @@ def light_r1_postprocessing(dataset, model_path, save_path, benchmark):
             except:  # 没字段表示没指定该参数，默认跳过格式校验
                 score = reward_fn(r, ground_truth, skip_format_reward=True)
             score_lst.append(score)
-        max_score = np.max(score_lst)
+
         total_scores.append(score_lst)
+        total_score_sum += sum(score_lst)
+        total_num_responses += len(score_lst)
+
+        max_score = np.max(score_lst)
         if max_score == 1:
             passes += 1
         
@@ -133,9 +141,10 @@ def light_r1_postprocessing(dataset, model_path, save_path, benchmark):
         if any(is_cons_correct_list):
             conses += np.mean(is_cons_correct_list)
 
-    # n_samples = n_samples
+    # 변경된 pass@1 방식 (micro-avg)
+    pass_at_1 = passes / total
+    pass_at_new_1 = total_score_sum / total_num_responses
     pass_at_n = passes / total
-    pass_at_1 = np.mean(total_scores)
     cons_at_n = conses / total
 
     spent_time = time.time() - start_time
@@ -151,7 +160,8 @@ def light_r1_postprocessing(dataset, model_path, save_path, benchmark):
     row_data = {
         'model_path': model_path,
         'dataset': benchmark,
-        'pass@1': pass_at_1,
+        # 'pass@1': pass_at_1,
+        f'pass@1': pass_at_new_1,
         f'pass@{n_samples}': pass_at_n,
         f'cons@{n_samples}': cons_at_n,
         'cutoff_raio': cutoff_ratio,
