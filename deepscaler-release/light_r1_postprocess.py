@@ -17,6 +17,7 @@ from verl.utils.fs import copy_local_path_from_hdfs
 from deepscaler.rewards.math_reward import deepscaler_reward_fn
 from deepscaler.rewards.math_utils.utils import extract_answer
 
+from utils import compute_repeat_penalty
 
 def find_mode(lst):
     if len(lst) == 0:
@@ -146,13 +147,30 @@ def light_r1_postprocessing(dataset, model_path, save_path, benchmark):
     # pass_at_1 = np.mean(total_scores)
     cons_at_n = conses / total
 
-    spent_time = time.time() - start_time
-    spent_hours = spent_time / 60 / 60
     # Save metrics to CSV
     # csv_path = os.path.join(output_dir, f'pass_{spent_hours:.2f}h.csv')
     output_dir = os.path.dirname(f'{save_path}/{benchmark}.parquet')
     makedirs(output_dir, exist_ok=True)
     csv_path = os.path.join(output_dir, f'{benchmark}_overall_results.csv')
+
+    """ Compute repeat penalty score """
+    pd_df = pd.read_parquet(f'{save_path}/{benchmark}.parquet')
+    data_list = pd_df.to_dict(orient='records')
+    char_score_list = []
+    phrase_score_list = []
+    paragraph_score_list = []
+    for inst in data_list:
+        for resp in inst['responses']:
+            char_score, phrase_score, paragraph_score = compute_repeat_penalty(resp)
+            char_score_list.append(char_score)
+            phrase_score_list.append(phrase_score)
+            paragraph_score_list.append(paragraph_score)
+    char_score_mean = np.mean(char_score_list)
+    phrase_score_mean = np.mean(phrase_score_list)
+    paragraph_score_mean = np.mean(paragraph_score_list)
+
+    spent_time = time.time() - start_time
+    spent_hours = spent_time / 60 / 60
 
     # Prepare the row data
     # Extract the dataset name from the path
@@ -164,6 +182,9 @@ def light_r1_postprocessing(dataset, model_path, save_path, benchmark):
         f'cons@{n_samples}': cons_at_n,
         'cutoff_raio': cutoff_ratio,
         'mean_response_tokens': len_mean,
+        'char_repeat_penalty': char_score_mean,
+        'phrase_repeat_penalty': phrase_score_mean,
+        'paragraph_repeat_penalty': paragraph_score_mean,
         'run_hours': spent_hours
     }
 
