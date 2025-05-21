@@ -36,8 +36,12 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+SCRIPT_DIR="$(dirname "$(dirname "$(dirname "$(realpath "$0")")")")"
+PROCESSED_DATA_PATH="${SCRIPT_DIR}/processed_data"
+
 # Echo the values for verification
 echo "Model Path: ${MODEL_PATH}"
+echo "Processed Data Path: ${PROCESSED_DATA_PATH}"
 echo "Datasets: ${DATATYPES[@]}"
 echo "Output Directory: ${OUTPUT_DIR}"
 
@@ -46,18 +50,33 @@ for DATA_TYPE in "${DATATYPES[@]}"; do
     python3 -m verl.trainer.main_generation \
         trainer.nnodes=1 \
         trainer.n_gpus_per_node=8 \
-        data.path=./processed_data/${DATA_TYPE}.parquet \
-        data.output_path=${OUTPUT_DIR}/${DATA_TYPE}.json \
-        data.n_samples=64 \
-        data.batch_size=2048 \
+        data.path=${PROCESSED_DATA_PATH}/${DATA_TYPE}.parquet \
+        data.output_path=${OUTPUT_DIR}/${DATA_TYPE}.parquet \
+        data.n_samples=1 \
+        data.batch_size=1024 \
         model.path=${MODEL_PATH} \
         rollout.temperature=0.6 \
-        rollout.response_length=32768 \
+        rollout.response_length=16384 \
         rollout.top_k=-1 \
         rollout.top_p=0.95 \
-        rollout.gpu_memory_utilization=0.95 \
-        rollout.tensor_model_parallel_size=1 \
-        +data.skip_format_reward=True
+        rollout.max_model_len=8192 \
+        rollout.gpu_memory_utilization=0.8 \
+        rollout.tensor_model_parallel_size=2 \
+        actor.strategy=fsdp \
+        actor.ulysses_sequence_parallel_size=1 \
+        actor.fsdp_config.fsdp_size=-1 \
+        rollout.disable_log_stats=True \
+        rollout.enable_chunked_prefill=True \
+        rollout.n=1 \
+        +actor_rollout_ref.rollout.enable_chunked_prefill=False \
+        +actor.optim.lr=1e-3 \
+        +data.skip_format_reward=True \
+        +model.trust_remote_code=True 
+
+    python light_r1_postprocess.py \
+        --model_path=${MODEL_PATH} \
+        --save_path=${OUTPUT_DIR} \
+        --benchmark=${DATA_TYPE}
 done
 # +data.skip_format_reward=True是默认行为，跳过校验答案正确性时的格式检查，没<think>也没事
 # nnodes增大，则可增大gpu_memory_utilization至0.9-0.95
