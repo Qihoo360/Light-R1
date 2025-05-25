@@ -17,6 +17,10 @@ def compute_repeat_penalty(solution_str, tail_token_num=2000):
     # ROUGE scorer 준비    
     scorer = rouge_scorer.RougeScorer(['rouge1', 'rouge2', 'rougeL'], use_stemmer=True)
     
+    # Initialize phrase_score and paragraph_score to handle cases where they might not be assigned
+    phrase_score = 0.0
+    paragraph_score = 0.0
+    
     # -------------------------------
     # 1. Character-level repetition using your function
     # 2~3. Phrase-level & Paragraph-level with ROUGE on <think> sections
@@ -31,7 +35,7 @@ def compute_repeat_penalty(solution_str, tail_token_num=2000):
         paragraphs = [p.strip() for p in tail_text.split('\n\n') if p.strip()]
         
         if len(paragraphs) < 2:
-            return char_score, 0.0, 0.0
+            return char_score, phrase_score, paragraph_score
         
         # paragraph의 끝에서 character-level repetition 한 번 더 확인
         if char_score == 0.0:
@@ -75,12 +79,12 @@ def compute_repeat_penalty(solution_str, tail_token_num=2000):
             paragraph_score_post = sum(post_rougeL_scores) / (len(post_rougeL_scores) + 1e-6)
 
             # Weighted combination of scores
-            try:
-                phrase_score = (phrase_score + phrase_score_post) / 2
-                paragraph_score = (paragraph_score + paragraph_score_post) / 2
-            except:
+            if phrase_score == 0.0 and paragraph_score == 0.0:
                 phrase_score = phrase_score_post
                 paragraph_score = paragraph_score_post
+            else:
+                phrase_score = (phrase_score + phrase_score_post) / 2
+                paragraph_score = (paragraph_score + paragraph_score_post) / 2
 
     else:
         ### </think>가 없는 경우 추출
@@ -105,11 +109,11 @@ def compute_repeat_penalty(solution_str, tail_token_num=2000):
             paragraph_score_pre = sum(pre_rougeL_scores) / (len(pre_rougeL_scores) + 1e-6)
 
             # Average scores across all scenarios
-            try:
-                phrase_score = (phrase_score + phrase_score_pre) / 2
-                paragraph_score = (paragraph_score + paragraph_score_pre) / 2
-            except:
+            if phrase_score == 0.0 and paragraph_score == 0.0:
                 phrase_score = phrase_score_pre
                 paragraph_score = paragraph_score_pre
+            else:
+                phrase_score = (phrase_score + phrase_score_pre) / 2
+                paragraph_score = (paragraph_score + paragraph_score_pre) / 2
 
     return char_score, phrase_score, paragraph_score
