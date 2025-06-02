@@ -8,6 +8,7 @@ MODEL_PATH="$HOME/DeepScaleR-1.5B-Preview"
 DATATYPES=("aime")
 OUTPUT_DIR="$HOME"  # Add default output directory
 N_SAMPLES=1
+
 # Parse named arguments
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -37,7 +38,6 @@ while [[ $# -gt 0 ]]; do
             echo "Usage: $0 --model <model_path> --datasets dataset1 dataset2 ... --output-dir <output_directory> --n_samples <n_samples>"
             exit 1
             ;;
-
     esac
 done
 
@@ -50,7 +50,6 @@ echo "Processed Data Path: ${PROCESSED_DATA_PATH}"
 echo "Datasets: ${DATATYPES[@]}"
 echo "Output Directory: ${OUTPUT_DIR}"
 echo "N Samples: ${N_SAMPLES}"
-
 # Loop through all datatypes
 for DATA_TYPE in "${DATATYPES[@]}"; do
     python3 -m verl.trainer.main_generation \
@@ -66,8 +65,8 @@ for DATA_TYPE in "${DATATYPES[@]}"; do
         rollout.top_k=-1 \
         rollout.top_p=0.95 \
         rollout.max_model_len=8192 \
-        rollout.gpu_memory_utilization=0.8 \
-        rollout.tensor_model_parallel_size=2 \
+        rollout.gpu_memory_utilization=0.7 \
+        rollout.tensor_model_parallel_size=8 \
         actor.strategy=fsdp \
         actor.ulysses_sequence_parallel_size=1 \
         actor.fsdp_config.fsdp_size=-1 \
