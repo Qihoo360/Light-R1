@@ -61,10 +61,11 @@ for DATA_TYPE in "${DATATYPES[@]}"; do
         data.batch_size=1024 \
         model.path=${MODEL_PATH} \
         rollout.temperature=0.6 \
-        rollout.response_length=16384 \
+        rollout.response_length=32768 \
         rollout.top_k=-1 \
         rollout.top_p=0.95 \
-        rollout.max_model_len=8192 \
+        rollout.max_model_len=32768 \
+        rollout.max_num_batched_tokens=32768 \
         rollout.gpu_memory_utilization=0.7 \
         rollout.tensor_model_parallel_size=8 \
         actor.strategy=fsdp \

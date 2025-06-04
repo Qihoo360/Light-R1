@@ -35,8 +35,7 @@ def select_reward_fn(data_source):
         return math.compute_score
     else:
         from deepscaler.rewards.math_reward import deepscaler_reward_fn
-        return deepscaler_reward_fn
-
+        return deepscaler_reward_fn    
 
 def compute_correctness(dataset):
     total_lst = list()
@@ -61,8 +60,8 @@ def light_r1_postprocessing(dataset, model_path, save_path, benchmark):
     tokenizer = hf_tokenizer(local_path)
 
     ###config hard-coded###
-    rollout_response_length = 16384
-    skip_format_reward = True
+    rollout_response_length = 32768
+    skip_format_reward = False
     n_samples = 64
 
     ###Light R1 postprocessing###
@@ -111,7 +110,7 @@ def light_r1_postprocessing(dataset, model_path, save_path, benchmark):
                     score = reward_fn(r, ground_truth, skip_format_reward=True)
                 else:
                     score = reward_fn(r, ground_truth, skip_format_reward=False)
-            except:  # 没字段表示没指定该参数，默认跳过格式校验
+            except:
                 score = reward_fn(r, ground_truth, skip_format_reward=True)
             score_lst.append(score)
 
