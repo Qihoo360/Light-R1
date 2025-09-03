@@ -150,3 +150,6 @@ Training data are collected from various public sources.
   year={2025}
 }
 ```
+
+## Star History
+![](https://api.star-history.com/svg?repos=Qihoo360/Light-R1&type=Date)
